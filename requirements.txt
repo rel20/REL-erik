@@ -1,6 +1,6 @@
 colorama
 konoha
-flair
+flair>=0.11
 segtok
 Pillow>=7.1.0
 torch

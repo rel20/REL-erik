@@ -1,5 +1,6 @@
 import os
 import re
+from functools import lru_cache
 
 from REL.db.generic import GenericLookup
 from REL.utils import modify_uppercase_phrase, split_in_words
@@ -39,6 +40,7 @@ class MentionDetectionBase:
 
         return left_ctxt, right_ctxt
 
+    @lru_cache(maxsize=None)
     def get_candidates(self, mention):
         """
         Retrieves a maximum of 100 candidates from the sqlite3 database for a given mention.
@@ -53,6 +55,7 @@ class MentionDetectionBase:
         else:
             return []
 
+    @lru_cache(maxsize=None)
     def preprocess_mention(self, m):
         """
         Responsible for preprocessing a mention and making sure we find a set of matching candidates

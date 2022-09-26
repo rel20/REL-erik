@@ -1,5 +1,6 @@
 import json
 import re
+from functools import lru_cache
 
 import flair
 import numpy as np
@@ -124,6 +125,11 @@ def modify_uppercase_phrase(s):
         return s
 
 
+@lru_cache(maxsize=None)
+def anyascii_cached(t):
+    return anyascii(t)
+
+
 def split_in_words(inputstr):
     """
     This regexp also splits 'AL-NAHAR', which should be a single word
@@ -132,7 +138,7 @@ def split_in_words(inputstr):
     Same with U.S.
     """
     tokenizer = RegexpTokenizer(r"\w+")
-    return [anyascii(w) for w in tokenizer.tokenize(inputstr)]  # #inputstr.split()]#
+    return [anyascii_cached(w) for w in tokenizer.tokenize(inputstr)]  # #inputstr.split()]#
 
 
 def split_in_words_mention(inputstr):
@@ -142,8 +148,7 @@ def split_in_words_mention(inputstr):
 
     Same with U.S.
     """
-    tokenizer = RegexpTokenizer(r"\w+")
-    return [anyascii(w) for w in inputstr.split()]  # #inputstr.split()]#
+    return [anyascii_cached(w) for w in inputstr.split()]  # #inputstr.split()]#
 
 
 def correct_type(args, data):
@@ -175,6 +180,7 @@ def make_equal_len(lists, fill_in=0, to_right=True):
     return eq_lists, mask
 
 
+@lru_cache(maxsize=None)
 def is_important_word(s):
     """
     an important word is not a stopword, a number, or len == 1

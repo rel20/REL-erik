@@ -2,7 +2,9 @@ import json
 import logging
 import sqlite3
 from array import array
+from functools import lru_cache
 from os import makedirs, path
+import numpy as np
 
 import requests
 
@@ -39,12 +41,11 @@ class DB:
         """
         # open database in autocommit mode by setting isolation_level to None.
         db = sqlite3.connect(fname, isolation_level=None)
-        c = db.cursor()
 
         q = "create table if not exists {}(word text primary key, {})".format(
             table_name, ", ".join(["{} {}".format(k, v) for k, v in columns.items()])
         )
-        c.execute(q)
+        db.cursor().execute(q)
         return db
 
     def create_index(self, columns=None, table_name=None):
@@ -52,7 +53,7 @@ class DB:
         #     self.columns = columns
         #     self.table_name = table_name
         #
-        c = self.db.cursor()
+
         # for i, (k, v) in enumerate(self.columns.items()):
         #     createSecondaryIndex = "CREATE INDEX if not exists idx_{} ON {}({})".format(
         #         k, self.table_name, k
@@ -63,14 +64,13 @@ class DB:
             "lower", "wiki", "lower"
         )
         print(createSecondaryIndex)
-        c.execute(createSecondaryIndex)
+        self.cursor.execute(createSecondaryIndex)
 
     def clear(self):
         """
         Deletes all embeddings from the database.
         """
-        c = self.db.cursor()
-        c.execute("delete from {}".format(self.table_name))
+        self.cursor.execute("delete from {}".format(self.table_name))
 
     def insert_batch_emb(self, batch):
         """
@@ -86,15 +86,14 @@ class DB:
                 ('!', [3, 4, 5]),
             ])
         """
-        c = self.db.cursor()
         binarized = [(word, array("f", emb).tobytes()) for word, emb in batch]
         try:
             # Adding the transaction statement reduces total time from approx 37h to 1.3h.
-            c.execute("BEGIN TRANSACTION;")
-            c.executemany(
+            self.cursor.execute("BEGIN TRANSACTION;")
+            self.cursor.executemany(
                 "insert into {} values (?, ?)".format(self.table_name), binarized
             )
-            c.execute("COMMIT;")
+            self.cursor.execute("COMMIT;")
         except Exception as e:
             print("insert failed\n{}".format([w for w, e in batch]))
             raise e
@@ -113,34 +112,22 @@ class DB:
                 ('!', [3, 4, 5]),
             ])
         """
-        c = self.db.cursor()
         binarized = [
-            (word, self.dict_to_binary(p_e_m), lower, occ)
+            (word, json.dumps(p_e_m).encode(), lower, occ)
             for word, p_e_m, lower, occ in batch
         ]
         try:
             # Adding the transaction statement reduces total time from approx 37h to 1.3h.
-            c.execute("BEGIN TRANSACTION;")
-            c.executemany(
+            self.cursor.execute("BEGIN TRANSACTION;")
+            self.cursor.executemany(
                 "insert into {} values (?, ?, ?, ?)".format(self.table_name), binarized
             )
-            c.execute("COMMIT;")
+            self.cursor.execute("COMMIT;")
         except Exception as e:
             print("insert failed\n{}".format([w for w, e in batch]))
             raise e
 
-    def dict_to_binary(self, the_dict):
-        # credit: https://stackoverflow.com/questions/19232011/convert-dictionary-to-bytes-and-back-again-python
-        str = json.dumps(the_dict)
-        binary = " ".join(format(ord(letter), "b") for letter in str)
-        return binary
-
-    def binary_to_dict(self, the_binary):
-        jsn = "".join(chr(int(x, 2)) for x in the_binary.split())
-        d = json.loads(jsn)
-        return d
-
-    def lookup(self, w, table_name, column="emb"):
+    def lookup_list(self, w, table_name, column="emb"):
         """
         Args:
             w: word to look up.
@@ -148,20 +135,22 @@ class DB:
             embeddings for ``w``, if it exists.
             ``None``, otherwise.
         """
-        c = self.db.cursor()
 
         res = []
-        c.execute("BEGIN TRANSACTION;")
         for word in w:
-            e = c.execute(
-                "select {} from {} where word = :word".format(column, table_name),
-                {"word": word},
-            ).fetchone()
-            res.append(e if e is None else array("f", e[0]).tolist())
-        c.execute("COMMIT;")
-
+            e = self.lookup(column, table_name, word)
+            res.append(e if e is None else np.frombuffer(e[0], dtype=np.float32))
         return res
 
+    @lru_cache(maxsize=None)
+    def lookup(self, column, table_name, word):
+        return self.cursor.execute(
+            "select {} from {} where word = :word".format(column, table_name),
+            {"word": word},
+        ).fetchone()
+
+
+    @lru_cache(maxsize=None)
     def lookup_wik(self, w, table_name, column):
         """
         Args:
@@ -170,21 +159,20 @@ class DB:
             embeddings for ``w``, if it exists.
             ``None``, otherwise.
         """
-        c = self.db.cursor()
         # q = c.execute('select emb from embeddings where word = :word', {'word': w}).fetchone()
         # return array('f', q[0]).tolist() if q else None
         if column == "lower":
-            e = c.execute(
+            e = self.cursor.execute(
                 "select word from {} where {} = :word".format(table_name, column),
                 {"word": w},
             ).fetchone()
         else:
-            e = c.execute(
+            e = self.cursor.execute(
                 "select {} from {} where word = :word".format(column, table_name),
                 {"word": w},
             ).fetchone()
         res = (
-            e if e is None else self.binary_to_dict(e[0]) if column == "p_e_m" else e[0]
+            e if e is None else json.loads(e[0].decode()) if column == "p_e_m" else e[0]
         )
 
         return res

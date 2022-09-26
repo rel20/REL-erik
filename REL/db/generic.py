@@ -1,4 +1,5 @@
 import os
+from functools import lru_cache
 from time import time
 
 import numpy as np
@@ -34,11 +35,12 @@ class GenericLookup(DB):
         self.d_emb = d_emb
         self.name = name
         self.db = self.initialize_db(path_db, table_name, columns)
+        self.cursor = self.db.cursor()
         self.table_name = table_name
         self.columns = columns
 
     def emb(self, words, table_name):
-        g = self.lookup(words, table_name)
+        g = self.lookup_list(words, table_name)
         return g
 
     def wiki(self, mention, table_name, column_name="p_e_m"):

@@ -91,8 +91,10 @@ class TrainingEvaluationDatasets:
                 continue
 
             mention = m["mention"].lower()
+            if mention == cur_m:
+                continue
             start_pos = mention.find(cur_m)
-            if start_pos == -1 or mention == cur_m:
+            if start_pos == -1:
                 continue
 
             end_pos = start_pos + len(cur_m) - 1

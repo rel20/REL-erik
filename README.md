@@ -60,6 +60,7 @@ ed_result = requests.post(API_URL, json={
 This section describes how to deploy REL on a local machine and setup the API. If you want to do anything more than simply running our API locally, you can skip the Docker steps and continue with installation from source.
 
 ### Option 1: Installation using Docker
+
 First, download the necessary data; you need the generic files and a Wikipedia version (2014 or 2019) (see [Download](#download)). Extract them anywhere, we will bind the directories to the Docker container as volumes.
 
 ```bash
@@ -67,6 +68,7 @@ First, download the necessary data; you need the generic files and a Wikipedia v
 ```
 
 #### Prebuilt images
+
 To use our prebuilt default image, run:
 
 ```bash
@@ -110,7 +112,7 @@ pip install git+https://github.com/informagi/REL
 ```
 You will also need to manually download the files described in the next section.
 
-### Download
+### Download data
 
 The files used for this project can be divided into three categories. The first is a generic set of documents and embeddings that was used throughout the project. This folder includes the GloVe embeddings and the unprocessed datasets that were used to train the ED model. The second and third category are Wikipedia corpus related files, which in our case either originate from a 2014 or 2019 corpus. Alternatively, users may use their own corpus, for which we refer to the tutorials.
 

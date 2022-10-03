@@ -1,4 +1,5 @@
 # Notes on using custom models with REL
+
 It is easy to swap out parts of REL's pipeline with different models. REL
 contains infrastructure to easily download and use models provided by us, but
 you can also define your own models. In this tutorial, we outline some possible
@@ -15,10 +16,11 @@ model, you can only use a local filepath.
     - [Local or remote archives](#local-or-remote-archives)
 - [Under the hood](#under-the-hood)
 
-# Loading semantics
+## Loading semantics
+
 NER and ED models that we provide as part of REL can be loaded easily using
 aliases.  Available models are listed
-[here](https://github.com/informagi/REL/tree/master/REL/models/models.json).
+[on the REL repository](https://github.com/informagi/REL/tree/master/REL/models/models.json).
 All models that need to be downloaded from the web are cached for subsequent
 use.
 
@@ -27,7 +29,8 @@ use.
 Additionally, fields that accept aliases also take URLs and regular file paths
 as values.
 
-## Examples
+### Examples
+
 Loading Flair NER models:
 ```python
 from REL.ner import load_flair_ner
@@ -57,7 +60,7 @@ the model, you can supply either a local filepath without extension, or a
 URL/filepath to a tarfile containing the two files. Examples of the required
 directory structure are shown below.
 
-### Aliases
+#### Aliases
 Loading an ED model using a REL alias is simple. Pass the alias string to the
 `model_path` key in the configuration, e.g.:
 ```python
@@ -72,7 +75,7 @@ config = {
 ed_model = EntityDisambiguation(base_url, wiki_version, config)
 ```
 
-### Local filepath
+#### Local filepath
 Required directory structure:
 ```
 model_folder
@@ -97,7 +100,7 @@ config = {
 ed_model = EntityDisambiguation(base_url, wiki_version, config)
 ```
 
-### Local or remote archives
+#### Local or remote archives
 Required archive structure:
 ```
 Filename: model_folder.tar
@@ -140,7 +143,7 @@ config = {
 ed_model = EntityDisambiguation(base_url, wiki_version, config)
 ```
 
-# Under the hood
+## Under the hood
 All the remote model loading functionality is built on `REL.utils.fetch_model`.
 This function tries to get a URL from `models.json` if applicable, and then
 downloads and caches the model checkpoint. You can use this function yourself

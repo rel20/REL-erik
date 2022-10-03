@@ -10,6 +10,17 @@ nav:
     - tutorials/reproducing_our_results.md
     - tutorials/systemd_instructions.md
     - tutorials/custom_models.md
+  - Python API reference:
+    - api/entity_disambiguation.md
+    - api/generate_train_test.md
+    - api/mention_detection.md
+    - api/mulrel_ranker.md
+    - api/server.md
+    - api/training_datasets.md
+    - api/utils.md
+    - api/vocabulary.md
+    - api/wikipedia.md
+    - api/wikipedia_yago_freq.md
   - Development: contributing.md
   - 🔗 Source code: https://github.com/informagi/REL
   - 🔗 Issues: https://github.com/informagi/REL/issues
@@ -51,28 +62,28 @@ extra_javascript:
 
 plugins:
 - search
-# - mkdocstrings:
-#     # https://mkdocstrings.github.io/usage/
-#     handlers:
-#       python:
-#         import:
-#         - https://docs.python.org/3/objects.inv
-#         - https://numpy.org/doc/stable/objects.inv
-#         - https://docs.scipy.org/doc/scipy/objects.inv
-#         - https://pandas.pydata.org/docs/objects.inv
-#         selection:
-#           docstring_style: numpy
-#           docstring_options:
-#             ignore_init_summary: yes
-#         rendering:
-#           show_submodules: no
-#           show_source: true
-#           docstring_section_style: list
-#           members_order: alphabetical
-#           show_category_heading: no
-#           merge_init_into_class: yes
+- mkdocstrings:
+    # https://mkdocstrings.github.io/usage/
+    handlers:
+      python:
+        import:
+        - https://docs.python.org/3/objects.inv
+        - https://numpy.org/doc/stable/objects.inv
+        - https://docs.scipy.org/doc/scipy/objects.inv
+        - https://pandas.pydata.org/docs/objects.inv
+        selection:
+          docstring_style: sphinx
+          docstring_options:
+            ignore_init_summary: yes
+        rendering:
+          show_submodules: no
+          show_source: true
+          docstring_section_style: list
+          members_order: alphabetical
+          show_category_heading: no
+          merge_init_into_class: yes
 
 watch:
-  # - REL/
+  - REL/
   - docs/
   - README.md

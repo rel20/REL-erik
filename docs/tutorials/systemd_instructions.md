@@ -1,9 +1,11 @@
 # Running REL as a systemd service
+
 In this tutorial we provide some instructions on how to run REL as a systemd
 service. This is a fairly simple setup, and allows for e.g. automatic restarts
 after crashes or machine reboots.
 
-## rel.service
+## Create `rel.service`
+
 For a basic systemd service file for REL, put the following content into
 `/etc/systemd/system/rel.service`:
 
@@ -29,6 +31,7 @@ instructions, see e.g. [here](https://wiki.debian.org/systemd/Services) or `man
 5 systemd.service`.
 
 ## Enable the service
+
 In order to enable the service, run the following commands in your shell:
 
 ```bash

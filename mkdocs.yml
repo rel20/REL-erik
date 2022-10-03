@@ -18,14 +18,14 @@ theme:
   name: material
   palette:
     - media: "(prefers-color-scheme: light)"
-      primary: indigo
+      primary: blue
       accent: red
       scheme: default
       toggle:
         name: Switch to dark mode
         icon: material/lightbulb
     - media: "(prefers-color-scheme: dark)"
-      primary: indigo
+      primary: blue
       accent: red
       scheme: slate
       toggle:

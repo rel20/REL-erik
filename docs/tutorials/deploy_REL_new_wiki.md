@@ -1,15 +1,17 @@
 # Deploy REL for a new Wikipedia corpus
+
 Although we will do our best to continuously provide the community with recent corpuses, it may be the case that a user wants to, for example, use
 an older corpus for a specific evaluation. For this reason we provide the user with the option to do so. We must, however,
 note that some steps are outside the scope of the REL package, which makes support for some of these steps a difficult task.
 
-This tutorial is divided in four parts. The first part deals with [Extracting a Wikipedia corpus and creating a p(e|m) index](https://github.com/informagi/REL/tree/master/tutorials/deploy_REL_new_Wiki/04_01_Extracting_a_new_Wikipedia_corpus.md).
-After extracting the aforementioned index and thus obtaining a sqlite3 database, we are also in need of Embeddings. We obtain new embeddings by [training a Wikipedia2Vec model](https://github.com/informagi/REL/tree/master/tutorials/deploy_REL_new_Wiki/04_02_training_your_own_embeddings.md).
-To train our own Entity Disambiguation model, we need to [generate training, validation and test files](https://github.com/informagi/REL/tree/master/tutorials/deploy_REL_new_Wiki/04_03_generating_training_test_files.md).
-These aforementioned p(e|m) index,  can be used to [train your own Entity Disambiguation model](https://github.com/informagi/REL/tree/master/tutorials/deploy_REL_new_Wiki/04_04_training_your_own_ED_model.md). 
-After obtaining this model, a user may choose to [evaluate the obtained model on Gerbil](https://github.com/informagi/REL/tree/master/tutorials/03_Evaluate_Gerbil.md) or for [E2E Entity Linking](https://github.com/informagi/REL/tree/master/tutorials/02_E2E_Entity_Linking.md).
+This tutorial is divided in four parts. The first part deals with [extracting a Wikipedia corpus and creating a p(e|m) index](#extracting-a-wikipedia-dump).
+After extracting the aforementioned index and thus obtaining a sqlite3 database, we are also in need of Embeddings. We obtain new embeddings by [training a Wikipedia2Vec model](#training-wikipedia2vec-embeddings).
+To train our own Entity Disambiguation model, we need to [generate training, validation and test files](#generate-training-validation-and-test-files).
+These aforementioned p(e|m) index,  can be used to [train your own Entity Disambiguation model](#training-your-own-entity-disambiguation-model). 
+After obtaining this model, a user may choose to [evaluate the obtained model on Gerbil](../evaluate_gerbil/) or for [E2E Entity Linking](../e2e_entity_linking/).
 
-# Creating a folder structure
+## Creating a folder structure
+
 Previously we have defined our `base_url`, but now we need to create a new sub folder in our directory to obtain 
 the following folder structure:
 
@@ -29,7 +31,9 @@ the following folder structure:
 |      └── anchor_files
 |   └── generated
 ```
-# Extracting a Wikipedia dump
+
+### Extracting a Wikipedia dump
+
 There are several platforms that host [Wikipedia dumps](https://dumps.wikimedia.org/). These platforms provide `xml` files that need processing. 
 A tool that does this is called [WikiExtractor](https://github.com/attardi/wikiextractor). This tool takes as an input a
 Wikipedia dump and spits out files that are required for our package. We, however, had to alter it slightly such that it 
@@ -43,7 +47,8 @@ and redirects) into the `anchor_files` folder.
 python WikiExtractor.py ./wiki_corpus.xml --links --filter_disambig_pages --processes 1 --bytes 1G
 ```
 
-# Generate p(e|m) index
+### Generate p(e\|m) index
+
 Now that we have extracted the necessary data from our Wikipedia corpus, we may create the p(e|m) index. This index
 is automatically stored in the same database as the embeddings that can be found in the `generated` folder. The first
 thing we need to do is define define a variable where we store our database. Secondly, we instantiate a `Wikipedia` class
@@ -67,8 +72,9 @@ wiki_yago_freq.compute_custom()
 wiki_yago_freq.store()
 ```
 
-# Embeddings
-## Training Wikipedia2Vec embeddings
+## Embeddings
+
+### Training Wikipedia2Vec embeddings
 Training new embeddings is based on the [Wikipedia2Vec](http://wikipedia2vec.github.io/) package. For extra information
 about this package we refer to their website. We did, however, feel obligated to provide users with the same scripts that
 we used to train our embeddings. These two shell scripts first install Wikipedia2vec and then asks you where
@@ -77,7 +83,8 @@ The two scripts are located in `scripts/w2v`, where you first run `preprocess.sh
 location of your Wikipedia dump. After this is done, you can run `train.sh` which will train a Wikipedia2Vec model and
 store it in the required word2vec format.
 
-## Storing Embeddings in DB
+### Storing Embeddings in DB
+
 Now that the Embeddings are trained and stored you might notice that the file is huge. This is exactly the reason
 why we choose for a database approach, because it was simply infeasible to load all the embeddings into memory. After 
 the package is installed, all we have to do is run the code below. Please make sure to not not change the variables `save_dir`
@@ -95,9 +102,11 @@ emb = GenericLookup(db_name, save_dir=save_dir, table_name='embeddings')
 emb.load_word2emb(embedding_file, batch_size=5000, reset=True)
 ```
 
-# Generating training, validation and test files
+## Generating training, validation and test files
+
 To train your own Entity Disambiguation model, training, validation and test files are required. To obtain these
 files we first define our `wiki_version` and instantiate a `Wikipedia` class that are required.
+
 ```python
 from REL.wikipedia import Wikipedia
 from REL.generate_train_test import GenTrainingTest
@@ -119,7 +128,8 @@ for ds in ["train", "test"]:
     data_handler.process_aida(ds)
 ```
 
-# Training your own Entity Disambiguation model
+## Training your own Entity Disambiguation model
+
 For our final tutorial we will train our own Entity Disambiguation model. The first step, as always, is to import
 the necessary packages and to define the `wiki_version`.
 

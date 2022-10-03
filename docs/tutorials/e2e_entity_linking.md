@@ -1,9 +1,11 @@
 # End-to-End Entity Linking
+
 In this tutorial we will guide you through the process of using our Entity Linking system. Please take note that we assume
 that the tutorials are followed in a sequential order, meaning that the variable `base_url` is defined and that you have
 amended the required project structure.
 
 ## Setting up  your own API
+
 Previously we defined our `base_url`. We also need the project to know which specific
 Wikipedia corpus we would like to use. We do this by creating a variable that in this case refers to the folder containing
 the necessary files for our Wikipedia 2014 folder. Additionally, we import the required packages.
@@ -91,6 +93,7 @@ API_result = requests.post("{}:{}".format(IP_ADDRESS, PORT), json=document).json
 ```
 
 ## Pipeline integration
+
 Alternatively, one may choose to integrate the package into an existing pipeline. This grants the user a bit more freedom
 with inputting multiple documents at the same time. This can especially be useful when batch loading multiple documents
 using their own or our Mention Detection system. To do this we once more import the required packages and define the folder name that contains our Wikipedia corpus files.
@@ -152,6 +155,7 @@ result = process_results(mentions_dataset, predictions, input_text)
 ```
 
 ## Replacing the Mention Detection module
+
 With this project we attempt to advocate a modular approach to development, making it easy
 for a user to replace certain components. One of such components is the Mention Detection module. After experimenting with
 various approaches, we came to the conclusion that the NER-system provided by Flair worked best and was easiest to integrate

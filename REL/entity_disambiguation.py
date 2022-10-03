@@ -23,15 +23,15 @@ from REL.mulrel_ranker import MulRelRanker, PreRank
 from REL.training_datasets import TrainingEvaluationDatasets
 from REL.vocabulary import Vocabulary
 
-"""
-Parent Entity Disambiguation class that directs the various subclasses used
-for the ED step.
-"""
 
 wiki_prefix = "en.wikipedia.org/wiki/"
 
 
 class EntityDisambiguation:
+    """
+    Parent Entity Disambiguation class that directs the various subclasses used
+    for the ED step.
+    """
     def __init__(self, base_url, wiki_version, user_config, reset_embeddings=False):
         self.base_url = base_url
         self.wiki_version = wiki_version

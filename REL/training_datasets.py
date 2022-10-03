@@ -1,14 +1,12 @@
 import os
 import pickle
 
-"""
-Class responsible for loading training/evaluation datasets for local ED.
-"""
-
 
 class TrainingEvaluationDatasets:
     """
-    reading dataset from CoNLL dataset, extracted by https://github.com/dalab/deep-ed/
+    Class responsible for loading training/evaluation datasets for local ED.
+    
+    Reading dataset from CoNLL dataset, extracted by https://github.com/dalab/deep-ed/
     """
 
     def __init__(self, base_url, wiki_version):

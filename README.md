@@ -28,7 +28,7 @@ Below is a comparison of these two models on [CoNLL-2003 NER](https://www.clips.
 | `ner-fast-with-lowercase`  |  lower-cased | 89.73 |
 | `ner-fast-with-lowercase`  |  random | 89.66 |
 
-See [Notes on using custom models](https://github.com/informagi/REL/tree/master/tutorials/07_custom_models.md) for further information on switiching between these variants.
+See [Notes on using custom models](https://rel.readthedocs.io/en/mkdocs/tutorials/custom_models/) for further information on switiching between these variants.
 
 
 # Calling our API
@@ -113,22 +113,20 @@ The files used for this project can be divided into three categories. The first 
 * [Download ED model 2019](http://gem.cs.ru.nl/ed-wiki-2019.tar.gz)
 
 ## Tutorials
-To promote usage of this package we developed various tutorials. If you simply want to use our API, then 
-we refer to the section above. If you feel one is missing or unclear, then please create an issue, which is much appreciated :)! The first two tutorials are
+To promote usage of this package we developed various [tutorials](https://rel.readthedocs.io/en/mkdocs/tutorials/). If you simply want to use our API, then 
+we refer to the section above. If you feel one is missing or unclear, then please create an [issue](https://github.com/informagi/REL/issues), which is much appreciated :)! 
+
+The first two tutorials are
 for users who simply want to use our package for EL/ED and will be using the data files that we provide. 
 The remainder of the tutorials are optional and for users who wish to e.g. train their own Embeddings.
 
-1. [How to get started (project folder and structure).](https://github.com/informagi/REL/tree/master/tutorials/01_How_to_get_started.md)
-2. [End-to-End Entity Linking.](https://github.com/informagi/REL/tree/master/tutorials/02_E2E_Entity_Linking.md)
-3. [Evaluate on GERBIL.](https://github.com/informagi/REL/tree/master/tutorials/03_Evaluate_Gerbil.md)
-4. [Deploy REL for a new Wikipedia corpus](https://github.com/informagi/REL/tree/master/tutorials/deploy_REL_new_Wiki/04_deploy_REL_new_wiki.md):
-    1. [Extracting a new Wikipedia corpus and creating a p(e|m) index.](https://github.com/informagi/REL/tree/master/tutorials/deploy_REL_new_Wiki/04_01_Extracting_a_new_Wikipedia_corpus.md)
-    2. [Training your own Embeddings.](https://github.com/informagi/REL/tree/master/tutorials/deploy_REL_new_Wiki/04_02_training_your_own_embeddings.md)
-    3. [Generating training, validation and test files.](https://github.com/informagi/REL/tree/master/tutorials/deploy_REL_new_Wiki/04_03_generating_training_test_files.md)
-    4. [Training your own Entity Disambiguation model.](https://github.com/informagi/REL/tree/master/tutorials/deploy_REL_new_Wiki/04_04_training_your_own_ED_model.md)
-5. [Reproducing our results](https://github.com/informagi/REL/tree/master/tutorials/05_reproducing_our_results.md)
-6. [REL as systemd service](https://github.com/informagi/REL/tree/master/tutorials/06_systemd_instructions.md)
-7. [Notes on using custom models](https://github.com/informagi/REL/tree/master/tutorials/07_custom_models.md)
+1. [How to get started (project folder and structure).](https://rel.readthedocs.io/en/mkdocs/tutorials/how_to_get_started/)
+2. [End-to-End Entity Linking.](https://rel.readthedocs.io/en/mkdocs/tutorials/e2e_entity_linking/)
+3. [Evaluate on GERBIL.](https://rel.readthedocs.io/en/mkdocs/tutorials/evaluate_gerbil/)
+4. [Deploy REL for a new Wikipedia corpus](https://rel.readthedocs.io/en/mkdocs/tutorials/deploy_REL_new_wiki/):
+5. [Reproducing our results](https://rel.readthedocs.io/en/mkdocs/tutorials/reproducing_our_results/)
+6. [REL as systemd service](https://rel.readthedocs.io/en/mkdocs/tutorials/systemd_instructions/)
+7. [Notes on using custom models](https://rel.readthedocs.io/en/mkdocs/tutorials/custom_models/)
 
 # Efficiency of REL
 We measured the efficiency of REL on a per-document basis. We ran our API with 50 documents from AIDA-B with > 200 words, which is 323 (± 105) words and 42 (± 19) mentions per document. The results are added to the table below.
@@ -140,7 +138,7 @@ We measured the efficiency of REL on a per-document basis. We ran our API with 5
 
 As our package has changed overtime, we refer to one of our [earlier commits](https://github.com/informagi/REL/tree/a0a93487ecc640a72f33ffe015a7a34dff8f054f) for reproducing the results in the table above. To reproduce the results above, perform the following steps:
 1. Start the server. As can be seen in `server.py`, we added [checkpoints in our server calls](https://github.com/informagi/REL/blob/a0a93487ecc640a72f33ffe015a7a34dff8f054f/REL/server.py#L82) to measure time taken per call.
-3. Once the server is started, run the [efficiency test](https://github.com/informagi/REL/blob/a0a93487ecc640a72f33ffe015a7a34dff8f054f/scripts/efficiency_test.py). Do not forget to update the `base_url` to specify where the data is located in the filesystem. This directory refers to where all project-related data is stored (see our [tutorial on how to get started](https://github.com/informagi/REL/blob/master/tutorials/01_How_to_get_started.md)
+3. Once the server is started, run the [efficiency test](https://github.com/informagi/REL/blob/a0a93487ecc640a72f33ffe015a7a34dff8f054f/scripts/efficiency_test.py). Do not forget to update the `base_url` to specify where the data is located in the filesystem. This directory refers to where all project-related data is stored (see our [tutorial on how to get started](https://rel.readthedocs.io/en/mkdocs/tutorials/how_to_get_started/)
 4. Finally, process the [efficiency results](https://github.com/informagi/REL/blob/a0a93487ecc640a72f33ffe015a7a34dff8f054f/scripts/efficiency_results.py).
 
 # Cite

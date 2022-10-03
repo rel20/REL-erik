@@ -10,6 +10,7 @@ nav:
     - tutorials/reproducing_our_results.md
     - tutorials/systemd_instructions.md
     - tutorials/custom_models.md
+  - Development: contributing.md
   - 🔗 Source code: https://github.com/informagi/REL
   - 🔗 Issues: https://github.com/informagi/REL/issues
 

@@ -1,7 +1,7 @@
 # REL: Radboud Entity Linker
 
-![API status](https://img.shields.io/endpoint?label=status&url=https%3A%2F%2Frel.cs.ru.nl%2Fapi)
-![build](https://github.com/informagi/REL/workflows/build/badge.svg)
+[![API status](https://img.shields.io/endpoint?label=status&url=https%3A%2F%2Frel.cs.ru.nl%2Fapi)](https://rel.cs.ru.nl/api)
+[![build](https://github.com/informagi/REL/workflows/build/badge.svg)](https://github.com/informagi/REL/actions/workflows/build.yaml)
 
 REL is a modular Entity Linking package that is provided as a Python package as well as a web API. REL has various meanings -  one might first notice that it stands for relation, which is a suiting name for the problems that can be tackled with this package. Additionally, in Dutch a 'rel' means a disturbance of the public order, which is exactly what we aim to achieve with the release of this package.
 
@@ -96,7 +96,7 @@ docker build . -t informagi/rel
 
 To run the API locally, use the same commands as mentioned in the previous section.
 
-##  Option 2: Installation from source code
+## Option 2: Installation from source code
 Run the following command in a terminal to install REL:
 ```
 pip install git+https://github.com/informagi/REL

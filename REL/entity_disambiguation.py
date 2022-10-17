@@ -135,7 +135,26 @@ class EntityDisambiguation:
             # extract the files in the archive to that directory
             # assign config[model_path] accordingly
             with tarfile.open(model_path) as f:
-                f.extractall(Path("~/.rel_cache").expanduser())
+                def is_within_directory(directory, target):
+                    
+                    abs_directory = os.path.abspath(directory)
+                    abs_target = os.path.abspath(target)
+                
+                    prefix = os.path.commonprefix([abs_directory, abs_target])
+                    
+                    return prefix == abs_directory
+                
+                def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
+                
+                    for member in tar.getmembers():
+                        member_path = os.path.join(path, member.name)
+                        if not is_within_directory(path, member_path):
+                            raise Exception("Attempted Path Traversal in Tar File")
+                
+                    tar.extractall(path, members, numeric_owner=numeric_owner) 
+                    
+                
+                safe_extract(f, Path("~/.rel_cache").expanduser())
             # NOTE: use double stem to deal with e.g. *.tar.gz
             # this also handles *.tar correctly
             stem = Path(Path(model_path).stem).stem

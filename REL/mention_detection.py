@@ -4,12 +4,12 @@ from segtok.segmenter import split_single
 
 from REL.mention_detection_base import MentionDetectionBase
 
-"""
-Class responsible for mention detection.
-"""
 
 
 class MentionDetection(MentionDetectionBase):
+    """
+    Class responsible for mention detection.
+    """
     def __init__(self, base_url, wiki_version):
         self.cnt_exact = 0
         self.cnt_partial = 0

@@ -23,6 +23,17 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     install_requires=required,
+    extras_require={
+        'develop': [
+            'pytest',
+        ],
+        'docs': [
+          'markdown-include',
+          'mkdocs',
+          'mkdocs-material',
+          'mkdocstrings[python]',
+        ]
+    },
     include_package_data=True,
     python_requires=">=3.6",
 )

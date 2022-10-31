@@ -85,4 +85,4 @@ mkdocs serve
 ```
 
 You can find the documentation source in the [docs](https://github.com/informagi/REL/tree/main/docs) directory. 
-If you are adding new pages, make sure to update the listing in the [`mkdocs.yml`](https://github.com/informagi/REL/blob/mkdocs/mkdocs.yml) under the `nav` entry.
+If you are adding new pages, make sure to update the listing in the [`mkdocs.yml`](https://github.com/informagi/REL/blob/main/mkdocs.yml) under the `nav` entry.

@@ -21,7 +21,8 @@ nav:
     - api/vocabulary.md
     - api/wikipedia.md
     - api/wikipedia_yago_freq.md
-  - Development: contributing.md
+  - Contributing: CONTRIBUTING.md
+  - Code of Conduct: CODE_OF_CONDUCT.md
   - 🔗 Source code: https://github.com/informagi/REL
   - 🔗 Issues: https://github.com/informagi/REL/issues
 

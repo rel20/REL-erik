@@ -153,6 +153,10 @@ As our package has changed overtime, we refer to one of our [earlier commits](ht
 3. Once the server is started, run the [efficiency test](https://github.com/informagi/REL/blob/a0a93487ecc640a72f33ffe015a7a34dff8f054f/scripts/efficiency_test.py). Do not forget to update the `base_url` to specify where the data is located in the filesystem. This directory refers to where all project-related data is stored (see our [tutorial on how to get started](https://rel.readthedocs.io/en/latest/tutorials/how_to_get_started/)
 4. Finally, process the [efficiency results](https://github.com/informagi/REL/blob/a0a93487ecc640a72f33ffe015a7a34dff8f054f/scripts/efficiency_results.py).
 
+## Development
+
+Check out our [Contributing Guidelines](CONTRIBUTING.md#Getting-started-with-development) to get started with development.
+
 ## Cite
 
 If you are using REL, please cite the following paper:

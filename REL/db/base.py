@@ -130,25 +130,38 @@ class DB:
     def lookup_list(self, w, table_name, column="emb"):
         """
         Args:
-            w: word to look up.
+            w: list of words to look up.
         Returns:
             embeddings for ``w``, if it exists.
             ``None``, otherwise.
         """
+        w = list(w)
 
-        res = []
-        for word in w:
-            e = self.lookup(column, table_name, word)
-            res.append(e if e is None else np.frombuffer(e[0], dtype=np.float32))
+        if len(w) == 0:
+            res = []
+        elif len(w) == 1:
+            e = self.lookup(column, table_name, w[0])
+            res = [e if e is None else np.frombuffer(e[0], dtype=np.float32)]
+        else:
+            ret = self.lookup_many(column, table_name, w)
+            mapping = {key: np.frombuffer(value, dtype=np.float32) for key, value in ret}
+            res = [mapping.get(word) for word in w]
+
         return res
+
+    def lookup_many(self, column, table_name, w):
+        qmarks = ','.join(('?',)*len(w))
+        return self.cursor.execute(
+            f"select word,{column} from {table_name} where word in ({qmarks})",
+            w,
+        ).fetchall()
 
     @lru_cache(maxsize=None)
     def lookup(self, column, table_name, word):
         return self.cursor.execute(
-            "select {} from {} where word = :word".format(column, table_name),
+            f"select {column} from {table_name} where word = :word",
             {"word": word},
         ).fetchone()
-
 
     @lru_cache(maxsize=None)
     def lookup_wik(self, w, table_name, column):

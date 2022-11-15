@@ -6,8 +6,11 @@
 REL is a modular Entity Linking package that is provided as a Python package as well as a web API. REL has various meanings -  one might first notice that it stands for relation, which is a suiting name for the problems that can be tackled with this package. Additionally, in Dutch a 'rel' means a disturbance of the public order, which is exactly what we aim to achieve with the release of this package.
 
 REL utilizes *English* Wikipedia as a knowledge base and can be used for the following tasks:
+
 - **Entity linking (EL)**: Given a text, the system outputs a list of mention-entity pairs, where each mention is a n-gram from text and each entity is an entity in the knowledge base.
 - **Entity Disambiguation (ED)**: Given a text and a list of mentions, the system assigns an entity (or NIL) to each mention.
+
+Documentation: <https://rel.readthedocs.io>
 
 ## REL variants
 
@@ -152,6 +155,10 @@ As our package has changed overtime, we refer to one of our [earlier commits](ht
 1. Start the server. As can be seen in `server.py`, we added [checkpoints in our server calls](https://github.com/informagi/REL/blob/a0a93487ecc640a72f33ffe015a7a34dff8f054f/REL/server.py#L82) to measure time taken per call.
 3. Once the server is started, run the [efficiency test](https://github.com/informagi/REL/blob/a0a93487ecc640a72f33ffe015a7a34dff8f054f/scripts/efficiency_test.py). Do not forget to update the `base_url` to specify where the data is located in the filesystem. This directory refers to where all project-related data is stored (see our [tutorial on how to get started](https://rel.readthedocs.io/en/latest/tutorials/how_to_get_started/)
 4. Finally, process the [efficiency results](https://github.com/informagi/REL/blob/a0a93487ecc640a72f33ffe015a7a34dff8f054f/scripts/efficiency_results.py).
+
+## Development
+
+Check out our [Contributing Guidelines](CONTRIBUTING.md#Getting-started-with-development) to get started with development.
 
 ## Cite
 
